@@ -1,0 +1,23 @@
+# action.yml
+name: 'JUNIT Test Report Tool'
+description: 'Generates annotations from the JUNIT XML output.'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout Code
+      uses: actions/checkout@v1
+    - run: ${{ github.action_path}}/javatest.sh
+      shell: bash
+
+
+inputs:
+  source_dir:
+    description: '(Path) The location of the folder containing your .md or .markdown files'
+    required: true
+  junit_dir:
+    description: '(Path) The location of the folder containing your images, this should be the route of all images'
+    required: false
+  
+branding:
+  icon: 'book'
+  color: 'blue'
