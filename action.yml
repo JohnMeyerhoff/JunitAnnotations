@@ -6,6 +6,7 @@ runs:
   steps:
     - name: Checkout Code
       uses: actions/checkout@v1
+      run: cd ${{ inputs.source_dir }}
     - run: ${{ github.action_path}}/javatest.sh
       shell: bash
     - name: Publish Test Report
