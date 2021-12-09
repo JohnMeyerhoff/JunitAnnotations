@@ -6,11 +6,12 @@ runs:
   steps:
     - name: Checkout Code
       uses: actions/checkout@v1
-    - run: cd ${{ inputs.source_dir }} && pwd && ls && ${{ github.action_path }}/scripts/javatest.sh
+    - run: ${{ github.action_path }}/scripts/javatest.sh
       shell: bash
       env:
         INTERNAL_LIB: ${{ github.action_path }}/lib
-        JUNIT_DIR: ${{ inputs.junit_dir }}
+        INPUT_SOURCE: ${{ inputs.source_dir }}
+        INPUT_JUNIT: ${{ inputs.junit_dir }}
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v2
       with:
@@ -20,10 +21,10 @@ runs:
         summary: 'JUnit test results are here.'
 inputs:
   source_dir:
-    description: '(Path) The location of the folder containing your code files'
+    description: '[Path] The location of the folder(s) containing your code files'
     required: true
   junit_dir:
-    description: '(Path) The location of the folder containing your junit, this should not be set unless you provide your own version'
+    description: '[Path] The location of the folder containing your junit, this should not be set unless you provide your own version'
     required: false
   
 branding:
