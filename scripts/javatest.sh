@@ -1,7 +1,7 @@
-if [ -z ${{ inputs.junit_dir }} ]; then
-    LIBS="${{ github.action_path }}/lib"
+if [ -z ${JUNIT_DIR} ]; then
+    LIBS="${INTERNAL_LIB}"
 else
-    LIBS="${{ inputs.junit_dir }}"
+    LIBS="${JUNIT_DIR}"
 fi
 
 echo "LIBS = ${LIBS}"
