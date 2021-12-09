@@ -9,7 +9,7 @@ runs:
     - run: ${{ github.action_path }}/scripts/javatest.sh
       shell: bash
       env:
-        INTERNAL_LIB: ${{ github.action_path }}/lib
+        ACTION_PATH: ${{ github.action_path }}
         INPUT_SOURCE: ${{ inputs.source_dir }}
         INPUT_JUNIT: ${{ inputs.junit_dir }}
     - name: Publish Test Report
