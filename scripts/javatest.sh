@@ -14,15 +14,15 @@ echo
 for SRC in ${INPUT_SOURCE}; do
 (
     cd "$SRC"
+    pwd
 
-    for FILE in **/*.java; do
-        cp "$FILE" "$TMP_DIR"
-    done
+    find . -name "*.java" -exec "cp {} $TMP_DIR"
 )
 done
 
 (
     cd "$TMP_DIR"
+    echo
     pwd
     echo
 
