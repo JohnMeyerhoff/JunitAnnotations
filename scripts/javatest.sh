@@ -1,10 +1,13 @@
+set -e #exit when another command exits
+
+
 if [ -z ${INPUT_JUNIT} ]; then
     LIBS="${ACTION_PATH}/lib"
 else
     LIBS="$INPUT_JUNIT"
 fi
 
-TMP_DIR="$(mktemp -d)"
+TMP_DIR="$(mktemp -d)" #create temp dir
 
 echo "SOURCE  = $INPUT_SOURCE"
 echo "LIBS    = $LIBS"
@@ -16,7 +19,7 @@ for SRC in ${INPUT_SOURCE}; do
     cd "$SRC"
     pwd
 
-    find . -name "*.java" -exec "cp {} $TMP_DIR ;"
+    find . -name "*.java" -exec "cp {} $TMP_DIR" \;
 )
 done
 
@@ -26,11 +29,11 @@ done
     pwd
     echo
 
-    echo "Java build time"
     time (find . -name "*.java" | xargs javac -cp "${LIBS}/*") #build classes
+    echo "Java build time"
     echo
 )
 
-echo "JUnit run-all time"
 time (java -jar "${LIBS}/junit-platform-console-standalone-1.8.1.jar" --classpath ".:$TMP_DIR" --fail-if-no-tests --include-engine=junit-jupiter --scan-classpath --reports-dir=reports 2>/dev/null | grep -wv "Thanks")
+echo "JUnit run-all time"
 echo
