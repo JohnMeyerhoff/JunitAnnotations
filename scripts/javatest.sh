@@ -31,7 +31,14 @@ for SRC in ${INPUT_SOURCE}; do
     echo "Entering source dir ${PWD}..."
 
     # copy source file to temp dir (and create missing dirs)
-    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" \; -exec cp "{}" "${TMP_DIR}/$(dirname {})" \; -exec echo "  Copied {} to ${TMP_DIR}/{}" \;
+    for F in $(find . -name "*.java"); do
+        D="${TMP_DIR}/$(dirname "$F")"
+
+        mkdir -p "$D"
+        cp "$F" "$D"
+
+        echo "  Copied $F to ${D}/$(basename "$F")"
+    done
 
     echo "Leaving source dir..."
     echo
