@@ -21,7 +21,11 @@ for SRC in ${INPUT_SOURCE}; do
     PWD="$(pwd)"
     echo "Entering source dir ${PWD}..."
 
-    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" \; -exec cp "{}" "$TMP_DIR" \; # copy source file to temp dir (and create missing dirs)
+    # copy source file to temp dir (and create missing dirs)
+    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" \; -exec cp "{}" "$TMP_DIR" \; -exec echo "  Copied {} to ${TMP_DIR}/{}" \;
+
+    echo "Leaving source dir..."
+    echo
 )
 done
 
@@ -34,6 +38,11 @@ done
 
     time (find . -name "*.java" | xargs javac -cp "${LIBS}/*") # compile source files
     echo "Java build time"
+    echo
+
+    find . -name "*.class" -exec echo "  Compiled to class file {}" \;
+
+    echo "Leaving temp dir..."
     echo
 )
 
