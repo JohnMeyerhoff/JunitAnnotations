@@ -1,5 +1,11 @@
 set -e # exit when another command exits
 
+# define tree command, if it isn't installed yet
+# see stackoverflow answer https://stackoverflow.com/a/62589932
+[ -z $(which tree) ] && function tree() (
+    find ${1:-.} | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+)
+
 
 if [ -z ${INPUT_JUNIT} ]; then
     LIBS="${ACTION_PATH}/lib"
@@ -9,6 +15,9 @@ fi
 
 TMP_DIR="$(mktemp -d)" # create temp dir
 
+echo
+echo "Script options:"
+echo "--------------------------------------------------"
 echo "SOURCE  = $INPUT_SOURCE"
 echo "LIBS    = $LIBS"
 echo "TMP_DIR = $TMP_DIR"
@@ -40,7 +49,8 @@ done
     echo "Java build time"
     echo
 
-    find . -name "*.class" -exec echo "  Compiled to class file {}" \;
+    echo "  Content of temp dir:"
+    tree
 
     echo "Leaving temp dir..."
     echo
