@@ -1,4 +1,4 @@
-set -e #exit when another command exits
+set -e # exit when another command exits
 
 
 if [ -z ${INPUT_JUNIT} ]; then
@@ -7,7 +7,7 @@ else
     LIBS="$INPUT_JUNIT"
 fi
 
-TMP_DIR="$(mktemp -d)" #create temp dir
+TMP_DIR="$(mktemp -d)" # create temp dir
 
 echo "SOURCE  = $INPUT_SOURCE"
 echo "LIBS    = $LIBS"
@@ -17,19 +17,22 @@ echo
 for SRC in ${INPUT_SOURCE}; do
 (
     cd "$SRC"
-    pwd
 
-    find . -name "*.java" -exec cp "{}" "$TMP_DIR" \;
+    PWD="$(pwd)"
+    echo "Entering source dir ${PWD}..."
+
+    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" && cp "{}" "$TMP_DIR" \; # copy source file to temp dir (and create missing dirs)
 )
 done
 
 (
     cd "$TMP_DIR"
-    echo
-    pwd
+
+    PWD="$(pwd)"
+    echo "Entering temp dir ${PWD}..."
     echo
 
-    time (find . -name "*.java" | xargs javac -cp "${LIBS}/*") #build classes
+    time (find . -name "*.java" | xargs javac -cp "${LIBS}/*") # compile source files
     echo "Java build time"
     echo
 )
