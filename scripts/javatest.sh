@@ -21,7 +21,7 @@ for SRC in ${INPUT_SOURCE}; do
     PWD="$(pwd)"
     echo "Entering source dir ${PWD}..."
 
-    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" && cp "{}" "$TMP_DIR" \; # copy source file to temp dir (and create missing dirs)
+    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" \; -exec cp "{}" "$TMP_DIR" \; # copy source file to temp dir (and create missing dirs)
 )
 done
 
