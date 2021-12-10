@@ -31,7 +31,7 @@ for SRC in ${INPUT_SOURCE}; do
     echo "Entering source dir ${PWD}..."
 
     # copy source file to temp dir (and create missing dirs)
-    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" \; -exec cp "{}" "$TMP_DIR" \; -exec echo "  Copied {} to ${TMP_DIR}/{}" \;
+    find . -name "*.java" -exec mkdir -p "${TMP_DIR}/$(dirname {})" \; -exec cp "{}" "${TMP_DIR}/$(dirname {})" \; -exec echo "  Copied {} to ${TMP_DIR}/{}" \;
 
     echo "Leaving source dir..."
     echo
@@ -49,7 +49,7 @@ done
     echo "Java build time"
     echo
 
-    echo "  Content of temp dir:"
+    echo "Content of temp dir:"
     tree
 
     echo "Leaving temp dir..."
