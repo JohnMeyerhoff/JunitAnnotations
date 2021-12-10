@@ -19,7 +19,7 @@ for SRC in ${INPUT_SOURCE}; do
     cd "$SRC"
     pwd
 
-    find . -name "*.java" -exec "cp {} $TMP_DIR" \;
+    find . -name "*.java" -exec cp "{}" "$TMP_DIR" \;
 )
 done
 
