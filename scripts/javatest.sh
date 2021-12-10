@@ -16,7 +16,7 @@ for SRC in ${INPUT_SOURCE}; do
     cd "$SRC"
     pwd
 
-    find . -name "*.java" -exec "cp {} $TMP_DIR"
+    find . -name "*.java" -exec "cp {} $TMP_DIR ;"
 )
 done
 
@@ -26,11 +26,11 @@ done
     pwd
     echo
 
-    time (find . -name "*.java" | xargs javac -cp "${LIBS}/*") #build classes
     echo "Java build time"
-    echo
-
-    time (java -jar "${LIBS}/junit-platform-console-standalone-1.8.1.jar" --classpath . --fail-if-no-tests --include-engine=junit-jupiter --scan-classpath --reports-dir=reports 2>/dev/null | grep -wv "Thanks")
-    echo "JUnit run-all time"
+    time (find . -name "*.java" | xargs javac -cp "${LIBS}/*") #build classes
     echo
 )
+
+echo "JUnit run-all time"
+time (java -jar "${LIBS}/junit-platform-console-standalone-1.8.1.jar" --classpath ".:$TMP_DIR" --fail-if-no-tests --include-engine=junit-jupiter --scan-classpath --reports-dir=reports 2>/dev/null | grep -wv "Thanks")
+echo
